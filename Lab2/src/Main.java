@@ -27,8 +27,6 @@ public class Main {
     }
 
     public static void main(String[] args)  {
-        // 5. Stream API
-        // 6. Многопоточное программирование в Java 8
 
         // 1. Коллекции
 
@@ -129,11 +127,47 @@ public class Main {
 
         System.out.println();
 
-        // Пример параллельной обработки с использованием Stream API
-        List<String> parallelUpperCaseList = strings.parallelStream()
-                .map(String::toUpperCase)
-                .collect(Collectors.toList());
+        // 6. Многопоточное программирование в Java 8
 
-        System.out.println(parallelUpperCaseList);
+        // Пример использования параллельного стрима для обработки коллекции данных
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8);
+
+        // Параллельное выполнение операции фильтрации
+        numbers.parallelStream().filter(n -> n % 2 == 0).forEach(System.out::println);
+
+        // Пример использования лямбда-выражения и интерфейса Runnable
+        Runnable myRunnable = () -> {
+            for (int i = 0; i < 5; i++) {
+                System.out.println("Thread 1: " + i);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        // Пример использования лямбда-выражения и интерфейса Runnable с анонимным классом
+        Runnable myRunnable2 = new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 5; i++) {
+                    System.out.println("Thread 2: " + i);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+
+        // Создание и запуск потока
+        Thread thread1 = new Thread(myRunnable);
+        thread1.start();
+
+        // Создание и запуск второго потока
+        Thread thread2 = new Thread(myRunnable2);
+        thread2.start();
     }
 }
